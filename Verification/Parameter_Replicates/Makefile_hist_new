@@ -1,0 +1,29 @@
+# Makefile for Drug Resistance simulation model
+
+IDIR:=include
+ODIR:=obj
+_DEPS:=declarations.hpp
+DEPS:=$(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ=hist_new.o hist_functions.o 
+OBJ:=$(patsubst %,$(ODIR)/%,$(_OBJ))
+
+MAIN:=hist_new
+
+all: $(MAIN)
+
+CC=g++
+RM=rm -rf
+
+CXXFLAGS=-I$(IDIR) -O2 -static -std=c++17
+
+$(ODIR)/%.o: %.cpp $(DEPS) $(DEPSP)
+	$(CC) -c -o $@ $< $(CXXFLAGS) 
+
+$(MAIN):$(OBJ)
+	$(CC) -o $@ $^ $(CXXFLAGS) -Wall -Wextra -Werror
+
+clean:
+	$(RM) $(ODIR)/*.o *~ core*
+clear:
+	$(RM) *.txt 
